@@ -3,7 +3,9 @@ var cors =require('cors');
 var cookieParser = require('cookie-parser');
 var path = require('path');
 var app = express();
-var citiesRouter = require('./service');
+require('dotenv').config();
+
+var citiesRouter = require('./mapService');
 
 app.use(cors({origin:'http://localhost:4200'}))
 
@@ -17,9 +19,5 @@ app.get('/', function(req, res) {
 });
 
 app.use('/get-cities',citiesRouter);
-
-// app.use(function(req, res, next) {
-//     next(createError(404));
-//   });
 
 module.exports = app;
