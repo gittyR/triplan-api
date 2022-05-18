@@ -2,19 +2,13 @@ require('dotenv').config();
 
 const MongoClient = require('mongodb').MongoClient;
 
-class Connection {
-
-    static async open() {
-        if (this.db) return this.db
-        await MongoClient.connect(this.url, (err,db)=>{
-            this.db = db.db(process.env.DB_NAME);
-            return this.db
-        })
+let db = null;
+const url = process.env.MONGO_URI;
+    module.exports.open = async () => {
+        if (db) return db
+        const client = await MongoClient.connect(url);
+            db = client.db(process.env.DB_NAME);
+            return db
     }
 
-}
 
-Connection.db = null;
-Connection.url = process.env.MONGO_URI;
-
-module.exports = { Connection }
